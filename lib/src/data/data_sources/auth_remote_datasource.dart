@@ -22,6 +22,11 @@ abstract class AuthRemoteDatasource {
 
 @LazySingleton(as: AuthRemoteDatasource)
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
+  final FirebaseFirestore firebaseFirestore;
+  final FirebaseAuth firebaseAuth;
+  final NetworkInfo networkInfo;
+  late final InternetSafeRunner internetSafeRunner;
+
   AuthRemoteDatasourceImpl({
     required this.firebaseFirestore,
     required this.firebaseAuth,
@@ -29,11 +34,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   }) {
     internetSafeRunner = InternetSafeRunner(networkInfo);
   }
-
-  final FirebaseFirestore firebaseFirestore;
-  final FirebaseAuth firebaseAuth;
-  final NetworkInfo networkInfo;
-  late final InternetSafeRunner internetSafeRunner;
 
   CollectionReference get nurseCollection => firebaseFirestore.collection(FirebaseCollection.nurses);
 

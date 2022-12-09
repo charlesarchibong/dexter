@@ -1,3 +1,5 @@
+import 'package:dexter_health/src/data/models/task_model.dart';
+import 'package:dexter_health/src/domain/entities/nurse_assigned_shift.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +11,7 @@ class Task extends Equatable {
     required this.completedAt,
     required this.status,
     required this.createAt,
-    required this.assignShiftId,
+    required this.nurseAssignedShift,
   });
 
   final String id;
@@ -18,18 +20,28 @@ class Task extends Equatable {
   final DateTime completedAt;
   final DateTime createAt;
   final TaskStatus status;
-  final String assignShiftId;
+  final NurseAssignedShift nurseAssignedShift;
 
   @override
   List<Object?> get props => [
         id,
         name,
-        assignShiftId,
+        nurseAssignedShift,
         description,
         createAt,
         completedAt,
         status,
       ];
+
+  TaskModel toModel() => TaskModel(
+        id: id,
+        name: name,
+        description: description,
+        taskCompletedAt: completedAt,
+        taskCreateAt: createAt,
+        taskStatus: status,
+        nurseAssignedShiftModel: nurseAssignedShift.toModel(),
+      );
 }
 
 enum TaskStatus {

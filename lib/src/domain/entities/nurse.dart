@@ -1,3 +1,4 @@
+import 'package:dexter_health/src/data/models/nurse_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Nurse extends Equatable {
@@ -15,4 +16,11 @@ class Nurse extends Equatable {
 
   @override
   List<Object?> get props => [id, email, firstName, lastName];
+
+  NurseModel toModel() => NurseModel(
+        id: id,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+      );
 }

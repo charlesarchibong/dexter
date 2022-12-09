@@ -9,15 +9,17 @@ part of 'nurse_assigned_shift_model.dart';
 NurseAssignedShiftModel _$NurseAssignedShiftModelFromJson(
         Map<String, dynamic> json) =>
     NurseAssignedShiftModel(
-      nurseId: json['id'] as String,
+      id: json['id'] as String,
       nurseModel: NurseModel.fromJson(json['nurse'] as Map<String, dynamic>),
       shiftModel: ShiftModel.fromJson(json['shift'] as Map<String, dynamic>),
+      taskAssignedAt: firestoreDateTimeFromJson(json['assignedAt']),
     );
 
 Map<String, dynamic> _$NurseAssignedShiftModelToJson(
         NurseAssignedShiftModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'nurse': instance.nurseModel.toJson(),
       'shift': instance.shiftModel.toJson(),
-      'id': instance.nurseId,
+      'assignedAt': firestoreDateTimeToJson(instance.taskAssignedAt),
     };

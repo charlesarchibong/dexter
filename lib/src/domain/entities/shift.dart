@@ -1,3 +1,4 @@
+import 'package:dexter_health/src/data/models/shift_model.dart';
 import 'package:equatable/equatable.dart';
 
 class Shift extends Equatable {
@@ -15,4 +16,11 @@ class Shift extends Equatable {
 
   @override
   List<Object?> get props => [id, name, startTime, endTime];
+
+  ShiftModel toModel() => ShiftModel(
+        shiftId: id,
+        shiftName: name,
+        shiftStartTime: startTime,
+        shiftEndTime: endTime,
+      );
 }

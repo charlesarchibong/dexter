@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dexter_health/core/errors/dexter_exception.dart';
 import 'package:dexter_health/core/errors/failure.dart';
+import 'package:dexter_health/core/utils/either_safe_runner.dart';
 import 'package:dexter_health/src/data/data_sources/auth_remote_datasource.dart';
 import 'package:dexter_health/src/domain/entities/nurse.dart';
 import 'package:dexter_health/src/domain/repositories/auth_repository.dart';
@@ -15,27 +16,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, Nurse?>> getCurrentUser({String? id}) async {
-    try {
-      final nurse = await authRemoteDatasource.getCurrentUser(id: id);
-      return Right(nurse);
-    } catch (e) {
-      if (e is FirebaseException) {
-        return Left(
-          Failure.serverError(
-            e.message ?? 'Something went wrong, please try again later',
-          ),
-        );
-      } else if (e is DexterException) {
-        final failure = e.when(
-          server: (message) => Failure.serverError(message),
-          noInternet: () => const Failure.noInternet(),
-          unknown: () => const Failure.unknown(),
-        );
-        return Left(failure);
-      } else {
-        return const Left(Failure.unknown());
-      }
-    }
+    return EitherSafeRunner.run<Nurse?>(
+      safeCallback: () => authRemoteDatasource.getCurrentUser(id: id),
+    );
   }
 
   @override
